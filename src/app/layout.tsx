@@ -1,6 +1,7 @@
 import "./globals.css"
 import Navbar from "@/lib/components/navbar"
 import Footer from "@/lib/components/footer"
+import { LanguageProvider } from "@/lib/language-context"
 
 import {
   Big_Shoulders,
@@ -42,11 +43,13 @@ export default function RootLayout({
       <body
         className={`${displayFont.variable} ${bodyFont.variable} ${koreanFont.variable} min-h-screen flex flex-col`}
       >
-        <Navbar />
-        <main className="flex-1 max-w-6xl mx-auto px-6 py-12">
-          {children}
-        </main>
-        <Footer />
+        <LanguageProvider>
+          <Navbar />
+          <main className="flex-1 max-w-6xl mx-auto px-6 py-12">
+            {children}
+          </main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   )

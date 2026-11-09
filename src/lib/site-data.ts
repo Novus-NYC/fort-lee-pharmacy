@@ -22,6 +22,7 @@ export type NavigationItem = {
 export type SiteData = {
   name: BilingualText
   description: BilingualText
+  footerDescription: string
   phone: string
   secondaryPhone: string
   email: string
@@ -45,6 +46,8 @@ export const siteData: SiteData = {
     en: "A neighborhood pharmacy on Lemoine Avenue in Fort Lee, New Jersey.",
     ko: "뉴저지 포트리 르무안 애비뉴에 있는 동네 약국입니다.",
   },
+  footerDescription:
+    "Your neighborhood pharmacy in Fort Lee, in Korean and English.",
   phone: "201-346-9202",
   secondaryPhone: "201-346-9212",
   email: "fortleepharmacy@gmail.com",
@@ -163,21 +166,21 @@ export const siteData: SiteData = {
         en: "Services",
         ko: "서비스",
       },
-      href: "/services",
+      href: "/pages/services",
     },
     {
       label: {
         en: "About",
         ko: "소개",
       },
-      href: "/about",
+      href: "/pages/about",
     },
     {
       label: {
         en: "Contact",
         ko: "문의",
       },
-      href: "/contact",
+      href: "/pages/contact",
     },
   ],
   languages: {

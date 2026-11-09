@@ -110,6 +110,26 @@ a {
   outline-offset: 3px;
 }
 
+.site-nav {
+  position: relative;
+}
+
+.site-nav::after {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 14px;
+  background: radial-gradient(
+      circle at 14px 0,
+      var(--color-blue) 13px,
+      transparent 14px
+    )
+    0 0 / 28px 14px repeat-x;
+  content: "";
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
