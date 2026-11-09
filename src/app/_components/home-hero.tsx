@@ -46,7 +46,7 @@ export default function HomeHero() {
   return (
     <section
       aria-labelledby="home-hero-heading"
-      className="-my-12 flex min-h-[calc(100svh-76px)] items-center bg-[var(--color-navy)] py-12 max-[820px]:min-h-0 max-[820px]:py-[34px]"
+      className="-mt-12 mb-0 flex min-h-[calc(100svh-16px)] items-center bg-[var(--color-navy)] py-12 max-[820px]:min-h-0 max-[820px]:pt-[34px] max-[820px]:pb-[72px]"
     >
       <div className="mx-auto grid w-full grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] items-center gap-[44px] max-[820px]:grid-cols-1 max-[820px]:gap-0">
         <div
@@ -90,7 +90,7 @@ export default function HomeHero() {
           </div>
         </div>
 
-        <figure className="relative mx-auto mt-11 w-full max-w-[420px] rotate-[1.5deg] max-[820px]:mt-11 lg:justify-self-end">
+        <figure className="relative mx-auto mt-5 w-full max-w-[420px] rotate-[1.5deg] max-[820px]:mt-5 lg:-translate-y-6 lg:justify-self-end">
           <PharmacyStorefrontIllustration />
 
           <div
