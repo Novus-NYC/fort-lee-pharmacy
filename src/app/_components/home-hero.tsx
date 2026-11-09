@@ -51,8 +51,7 @@ export default function HomeHero() {
       <div className="mx-auto grid w-full grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] items-center gap-[44px] max-[820px]:grid-cols-1 max-[820px]:gap-0">
         <div
           style={{
-            fontFamily:
-              "var(--font-instrument-sans), var(--font-noto-sans-kr), sans-serif",
+            fontFamily: "var(--font-body)",
           }}
         >
           <h1
@@ -60,8 +59,8 @@ export default function HomeHero() {
             className="text-balance text-[clamp(36px,4.9vw,68px)] font-black leading-none"
             style={{
               fontFamily: isEnglish
-                ? "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif"
-                : "var(--font-noto-sans-kr), sans-serif",
+                ? "var(--font-display)"
+                : "var(--font-korean)",
             }}
           >
             {isEnglish
@@ -114,7 +113,7 @@ export default function HomeHero() {
             <span className="absolute -top-[55px] right-[14px] h-[54px] w-0.5 origin-bottom rotate-[-48deg] bg-white/90" />
             <span className="absolute -top-[42px] left-1/2 h-[9px] w-[9px] -translate-x-1/2 rounded-full bg-[#cfd4e0] shadow-inner" />
             <span
-              className={`font-[var(--font-noto-sans-kr)] text-2xl font-black leading-none text-[#FF4D6D] ${
+              className={`font-[var(--font-korean)] text-2xl font-black leading-none text-[#FF4D6D] ${
                 storeStatus?.isOpen === false ? "opacity-40" : ""
               }`}
               style={{
@@ -161,8 +160,9 @@ export default function HomeHero() {
           <span
             className="absolute -bottom-[-10px] left-[-18px] z-10 rotate-[-3deg] rounded-[4px] bg-[var(--color-coral)] px-[14px] py-[1px] text-[22px] font-black text-[var(--color-navy)] shadow-[0_0_22px_#ff4d6d88,4px_4px_0_#0a1230]"
             style={{
-              fontFamily:
-                "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif",
+              fontFamily: isEnglish
+                ? "var(--font-display)"
+                : "var(--font-korean)",
             }}
           >
             {isEnglish ? "Free delivery" : "무료 배달"}

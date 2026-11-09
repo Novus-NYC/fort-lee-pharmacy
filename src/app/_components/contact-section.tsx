@@ -42,8 +42,8 @@ export default function ContactSection() {
             className="mb-[14px] text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.05]"
             style={{
               fontFamily: isEnglish
-                ? "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif"
-                : "var(--font-noto-sans-kr), sans-serif",
+                ? "var(--font-display)"
+                : "var(--font-korean)",
             }}
           >
             {isEnglish
@@ -99,8 +99,8 @@ export default function ContactSection() {
                 className="mb-1 text-[30px] font-extrabold leading-tight"
                 style={{
                   fontFamily: isEnglish
-                    ? "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif"
-                    : "var(--font-noto-sans-kr), sans-serif",
+                    ? "var(--font-display)"
+                    : "var(--font-korean)",
                 }}
               >
                 {isEnglish ? "Send us a message" : "메시지 보내기"}

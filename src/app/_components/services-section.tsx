@@ -47,8 +47,8 @@ export default function ServicesSection() {
             className="mb-6 text-[clamp(32px,4.6vw,52px)] font-extrabold leading-[1.05]"
             style={{
               fontFamily: isEnglish
-                ? "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif"
-                : "var(--font-noto-sans-kr), sans-serif",
+                ? "var(--font-display)"
+                : "var(--font-korean)",
             }}
           >
             {isEnglish
@@ -82,8 +82,8 @@ export default function ServicesSection() {
                   className="text-[30px] font-extrabold leading-[1.05]"
                   style={{
                     fontFamily: isEnglish
-                      ? "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif"
-                      : "var(--font-noto-sans-kr), sans-serif",
+                      ? "var(--font-display)"
+                      : "var(--font-korean)",
                   }}
                 >
                   {service.name[language]}

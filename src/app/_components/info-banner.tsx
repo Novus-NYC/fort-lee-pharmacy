@@ -171,8 +171,8 @@ export default function InfoBanner() {
           style={{
             fontFamily:
               language === "en"
-                ? "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif"
-                : "var(--font-noto-sans-kr), sans-serif",
+                ? "var(--font-display)"
+                : "var(--font-korean)",
           }}
         >
           {language === "en"
@@ -277,8 +277,8 @@ export default function InfoBanner() {
                     style={{
                       fontFamily:
                         language === "en"
-                          ? "var(--font-big-shoulders), var(--font-noto-sans-kr), sans-serif"
-                          : "var(--font-noto-sans-kr), sans-serif",
+                          ? "var(--font-display)"
+                          : "var(--font-korean)",
                     }}
                   >
                     {step.title[language]}

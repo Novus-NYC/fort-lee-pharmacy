@@ -29,7 +29,7 @@ export default function PharmacyStorefrontIllustration() {
         fontWeight="800"
         fill="#fff"
         textAnchor="middle"
-        fontFamily="Noto Sans KR,sans-serif"
+        fontFamily="var(--font-korean)"
       >
         Rx 포트리 약국
       </text>
@@ -41,7 +41,7 @@ export default function PharmacyStorefrontIllustration() {
         fill="#fff"
         textAnchor="middle"
         letterSpacing="5"
-        fontFamily="Instrument Sans,sans-serif"
+        fontFamily="var(--font-body)"
       >
         PHARMACY
       </text>
@@ -54,7 +54,7 @@ export default function PharmacyStorefrontIllustration() {
         fontWeight="900"
         fill="#FF4D6D"
         textAnchor="middle"
-        fontFamily="Noto Sans KR,sans-serif"
+        fontFamily="var(--font-korean)"
         style={{ filter: "drop-shadow(0 0 4px currentColor)" }}
       >
         약
@@ -67,7 +67,7 @@ export default function PharmacyStorefrontIllustration() {
         fill="#fff"
         textAnchor="middle"
         letterSpacing="2"
-        fontFamily="Instrument Sans,sans-serif"
+        fontFamily="var(--font-body)"
       >
         OPEN
       </text>
@@ -78,7 +78,7 @@ export default function PharmacyStorefrontIllustration() {
         fontWeight="700"
         fill="#3DF0DC"
         textAnchor="middle"
-        fontFamily="Instrument Sans,sans-serif"
+        fontFamily="var(--font-body)"
         style={{ filter: "drop-shadow(0 0 4px currentColor)" }}
       >
         FORT LEE
@@ -90,7 +90,7 @@ export default function PharmacyStorefrontIllustration() {
         fontWeight="700"
         fill="#FF4D6D"
         textAnchor="middle"
-        fontFamily="Instrument Sans,sans-serif"
+        fontFamily="var(--font-body)"
         style={{ filter: "drop-shadow(0 0 4px currentColor)" }}
       >
         PHARMACY
@@ -103,7 +103,7 @@ export default function PharmacyStorefrontIllustration() {
         fontWeight="800"
         fill="#8FD3FF"
         textAnchor="middle"
-        fontFamily="Noto Sans KR,sans-serif"
+        fontFamily="var(--font-korean)"
       >
         포트리 약국
       </text>

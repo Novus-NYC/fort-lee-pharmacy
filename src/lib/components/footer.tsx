@@ -102,7 +102,7 @@ export default function Footer() {
               >
                 <PharmacyLogo size={38} />
                 <span className="min-w-0">
-                  <span className="block truncate font-[var(--font-noto-sans-kr)] text-base font-extrabold leading-tight">
+                  <span className="block truncate font-[var(--font-korean)] text-base font-extrabold leading-tight">
                     {siteData.name[language]}
                   </span>
                   <span className="block truncate text-xs text-white/75">
