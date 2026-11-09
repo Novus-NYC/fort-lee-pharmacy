@@ -14,7 +14,8 @@
   --color-muted: #aeb6d1;
   --color-border: rgb(255 255 255 / 25%);
 
-  --font-display: var(--font-big-shoulders), "Noto Sans KR", sans-serif;
+  --font-display: "Big Shoulders Display", var(--font-big-shoulders),
+    "Noto Sans KR", sans-serif;
   --font-body: var(--font-instrument-sans), var(--font-noto-sans-kr), sans-serif;
   --font-korean: var(--font-noto-sans-kr), sans-serif;
 
