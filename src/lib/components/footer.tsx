@@ -1,129 +1,32 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
 import PharmacyLogo from "@/lib/components/pharmacy-logo"
-import { siteData, type BusinessHour } from "@/lib/site-data"
+import PhoneIcon from "@/lib/components/icons/phone-icon"
+import { useStoreHoursStatus } from "@/lib/hooks/use-store-hours-status"
+import { siteData } from "@/lib/site-data"
+import { useLanguage } from "@/lib/language-context"
 
-const addressParts = siteData.address.en.split(", ")
-const streetAddress = addressParts[0]
-const cityAddress = addressParts.slice(1).join(", ")
-const pharmacyTimeZone = "America/New_York"
-
-type HoursStatus = {
-  today: string
-  isOpen: boolean
-  message: string
+const weekdayNames = {
+  en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+  ko: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
 }
 
-const weekdays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-]
+function formatTime(time: string, language: "en" | "ko") {
+  const match = time.match(/^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/)
+  if (!match) return time
 
-function getHoursStatus(hours: BusinessHour[], date: Date): HoursStatus {
-  const dateParts = new Intl.DateTimeFormat("en-US", {
-    timeZone: pharmacyTimeZone,
-    weekday: "long",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: false,
-  }).formatToParts(date)
-  const weekday = dateParts.find((part) => part.type === "weekday")?.value
-  const hour = Number(dateParts.find((part) => part.type === "hour")?.value)
-  const minute = Number(dateParts.find((part) => part.type === "minute")?.value)
-  const weekdayIndex = weekdays.indexOf(weekday ?? "")
-  const currentMinutes = (hour === 24 ? 0 : hour) * 60 + minute
+  const [, hourText, minute, period] = match
+  const hour = period
+    ? (Number(hourText) % 12) + (period === "PM" ? 12 : 0)
+    : Number(hourText)
 
-  const getScheduleForDay = (dayIndex: number) =>
-    hours.find((schedule) => {
-    const [startDay, endDay] = schedule.days.en.split(/[–-]/).map((day) => day.trim())
-    const startIndex = weekdays.indexOf(startDay)
-    const endIndex = endDay ? weekdays.indexOf(endDay) : startIndex
-
-    return dayIndex >= startIndex && dayIndex <= endIndex
-  })
-
-  const toMinutes = (hours: string, minutes: string, period: string) => {
-    const hourInDay = Number(hours) % 12 + (period === "PM" ? 12 : 0)
-    return hourInDay * 60 + Number(minutes)
+  if (language === "ko") {
+    const period = hour < 12 ? "오전" : "오후"
+    return `${period} ${hour % 12 || 12}:${minute}`
   }
 
-  const todaySchedule = getScheduleForDay(weekdayIndex)
-  const todayTime = todaySchedule?.hours.en.match(
-    /^(\d{1,2}):(\d{2})\s*(AM|PM)–(\d{1,2}):(\d{2})\s*(AM|PM)$/,
-  )
-
-  if (todaySchedule && todayTime) {
-    const openMinutes = toMinutes(todayTime[1], todayTime[2], todayTime[3])
-    const closeMinutes = toMinutes(todayTime[4], todayTime[5], todayTime[6])
-
-    if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
-      return {
-        today: todaySchedule.days.en,
-        isOpen: true,
-        message: `Open now · Until ${todayTime[4]}:${todayTime[5]} ${todayTime[6]}`,
-      }
-    }
-  }
-
-  for (let dayOffset = 0; dayOffset < weekdays.length; dayOffset += 1) {
-    const targetDayIndex = (weekdayIndex + dayOffset) % weekdays.length
-    const schedule = getScheduleForDay(targetDayIndex)
-    const openingTime = schedule?.hours.en.match(
-      /^(\d{1,2}):(\d{2})\s*(AM|PM)–(\d{1,2}):(\d{2})\s*(AM|PM)$/,
-    )
-
-    if (!schedule || !openingTime) {
-      continue
-    }
-
-    const openingMinutes = toMinutes(openingTime[1], openingTime[2], openingTime[3])
-    if (dayOffset === 0 && currentMinutes >= openingMinutes) {
-      continue
-    }
-
-    const dayLabel =
-      dayOffset === 0
-        ? "today"
-        : dayOffset === 1
-          ? "tomorrow"
-          : weekdays[targetDayIndex]
-
-    return {
-      today: todaySchedule?.days.en ?? "",
-      isOpen: false,
-      message: `Closed now · Opens ${dayLabel} at ${openingTime[1]}:${openingTime[2]} ${openingTime[3]}`,
-    }
-  }
-
-  return {
-    today: todaySchedule?.days.en ?? "",
-    isOpen: false,
-    message: "Closed now",
-  }
-}
-
-function PhoneIcon() {
-  return (
-    <svg
-      className="h-[18px] w-[18px] shrink-0"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  )
+  return `${hour % 12 || 12}:${minute} ${hour < 12 ? "AM" : "PM"}`
 }
 
 function FooterColumn({
@@ -144,18 +47,44 @@ function FooterColumn({
 }
 
 export default function Footer() {
-  const [hoursStatus, setHoursStatus] = useState<HoursStatus | null>(null)
+  const { language } = useLanguage()
+  const hoursStatus = useStoreHoursStatus()
+  const isEnglish = language === "en"
+  const hoursMessage = hoursStatus
+    ? hoursStatus.isOpen
+      ? isEnglish
+        ? `Open now · Until ${formatTime(hoursStatus.closingTime, language)}`
+        : `영업 중 · ${formatTime(hoursStatus.closingTime, language)}까지`
+      : hoursStatus.nextOpeningTime
+        ? isEnglish
+          ? `Closed now · Opens ${
+              hoursStatus.nextOpeningDay === "today"
+                ? "today"
+                : hoursStatus.nextOpeningDay === "tomorrow"
+                  ? "tomorrow"
+                  : hoursStatus.nextOpeningDay === null
+                    ? ""
+                    : weekdayNames.en[hoursStatus.nextOpeningDay]
+            } at ${formatTime(hoursStatus.nextOpeningTime, language)}`
+          : `영업 종료 · ${
+              hoursStatus.nextOpeningDay === "today"
+                ? "오늘"
+                : hoursStatus.nextOpeningDay === "tomorrow"
+                  ? "내일"
+                  : hoursStatus.nextOpeningDay === null
+                    ? ""
+                    : weekdayNames.ko[hoursStatus.nextOpeningDay]
+            } ${formatTime(hoursStatus.nextOpeningTime, language)} 오픈`
+        : isEnglish
+          ? "Closed now"
+          : "영업 종료"
+    : isEnglish
+      ? "Checking hours"
+      : "영업시간 확인 중"
 
-  useEffect(() => {
-    const updateHoursStatus = () => {
-      setHoursStatus(getHoursStatus(siteData.hours, new Date()))
-    }
-
-    updateHoursStatus()
-    const intervalId = window.setInterval(updateHoursStatus, 60_000)
-
-    return () => window.clearInterval(intervalId)
-  }, [])
+  const columnTitles = isEnglish
+    ? { visit: "Visit", hours: "Hours", contact: "Contact", explore: "Explore" }
+    : { visit: "방문", hours: "영업시간", contact: "연락처", explore: "둘러보기" }
 
   return (
     <footer className="relative bg-[linear-gradient(180deg,_#0f1f5c,_#060b20_55%)] text-white">
@@ -174,33 +103,37 @@ export default function Footer() {
                 <PharmacyLogo size={38} />
                 <span className="min-w-0">
                   <span className="block truncate font-[var(--font-noto-sans-kr)] text-base font-extrabold leading-tight">
-                    {siteData.name.ko}
+                    {siteData.name[language]}
                   </span>
                   <span className="block truncate text-xs text-white/75">
-                    {siteData.name.en}
+                    {siteData.name[isEnglish ? "ko" : "en"]}
                   </span>
                 </span>
               </Link>
               <p className="mt-4 max-w-[42ch] text-sm text-white/75">
-                {siteData.footerDescription}
+                {siteData.footerDescription[language]}
               </p>
             </div>
 
             <div className="flex flex-col gap-3">
               <div className="flex flex-wrap gap-3">
                 <a
-                  href={`tel:${siteData.phone.replaceAll("-", "")}`}
+                  href={siteData.phone.href}
                   className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-[var(--radius-small)] bg-[var(--color-yellow)] px-4 py-2.5 text-sm font-bold text-[var(--color-navy)] no-underline hover:brightness-95 sm:flex-none"
-                  aria-label={`Call ${siteData.phone}`}
+                  aria-label={
+                    isEnglish
+                      ? `Call ${siteData.phone.display}`
+                      : `${siteData.phone.display} 전화하기`
+                  }
                 >
                   <PhoneIcon />
-                  {siteData.phone}
+                  {siteData.phone.display}
                 </a>
                 <Link
                   href="/pages/contact"
                   className="inline-flex min-h-11 flex-1 items-center justify-center rounded-[var(--radius-small)] border border-white/45 px-4 py-2.5 text-sm font-semibold text-white no-underline hover:border-white sm:flex-none"
                 >
-                  Message us
+                  {isEnglish ? "Message us" : "문의하기"}
                 </Link>
               </div>
               <div
@@ -224,14 +157,14 @@ export default function Footer() {
                       : "bg-white/40"
                   }`}
                 />
-                <span className="min-w-0">{hoursStatus?.message ?? "Checking hours"}</span>
+                <span className="min-w-0">{hoursMessage}</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="grid w-full grid-cols-1 gap-8 border-b border-white/15 px-6 py-7 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-8 lg:flex lg:items-start lg:justify-between lg:gap-0">
-          <FooterColumn title="Visit">
+          <FooterColumn title={columnTitles.visit}>
             <address className="text-sm not-italic leading-relaxed text-white/75">
               <a
                 href={siteData.mapUrl}
@@ -239,65 +172,77 @@ export default function Footer() {
                 rel="noreferrer"
                 className="underline decoration-white/25 underline-offset-4 hover:text-white"
               >
-                {streetAddress}
+                {siteData.address.street}
                 <br />
-                {cityAddress}
+                {siteData.address.city}, {siteData.address.state} {siteData.address.postalCode}
               </a>
             </address>
           </FooterColumn>
 
-          <FooterColumn title="Hours">
+          <FooterColumn title={columnTitles.hours}>
             <dl className="text-sm">
               {siteData.hours.map((hour) => (
                 <div
-                  key={hour.days.en}
+                  key={hour.label.en}
                   className="flex justify-between gap-3 border-b border-white/15 py-2 first:pt-0 last:border-b-0"
                 >
                   <dt
                     className={
-                      hoursStatus?.today === hour.days.en
+                      hoursStatus?.todayScheduleLabel?.en === hour.label.en
                         ? "text-[#3df0dc]"
                         : "text-white/75"
                     }
                   >
-                    {hour.days.en === "Monday–Friday" ? "Mon–Fri" : hour.days.en}
-                    {hoursStatus?.today === hour.days.en && (
-                      <span className="ml-1 font-normal">· today</span>
+                    {hour.label[language]}
+                    {hoursStatus?.todayScheduleLabel?.en === hour.label.en && (
+                      <span className="ml-1 font-normal">
+                        · {isEnglish ? "today" : "오늘"}
+                      </span>
                     )}
                   </dt>
                   <dd
                     className={`m-0 text-right font-semibold ${
-                      hoursStatus?.today === hour.days.en
+                      hoursStatus?.todayScheduleLabel?.en === hour.label.en
                         ? "text-[#3df0dc]"
                         : "text-white/90"
                     }`}
                   >
-                    {hour.hours.en}
+                    {hour.opensAt && hour.closesAt
+                      ? `${formatTime(hour.opensAt, language)}–${formatTime(hour.closesAt, language)}`
+                      : isEnglish
+                        ? "Closed"
+                        : "휴무"}
                   </dd>
                 </div>
               ))}
             </dl>
           </FooterColumn>
 
-          <FooterColumn title="Contact">
+          <FooterColumn title={columnTitles.contact}>
             <div className="flex flex-col items-start gap-2 text-sm text-white/75">
               <a
-                href={`tel:${siteData.phone.replaceAll("-", "")}`}
+                href={siteData.phone.href}
                 className="underline decoration-white/25 underline-offset-4 hover:text-white"
               >
-                {siteData.phone}
+                {isEnglish ? "Phone" : "전화"}: {siteData.phone.display}
+              </a>
+              <a
+                href={siteData.fax.href}
+                className="underline decoration-white/25 underline-offset-4 hover:text-white"
+              >
+                {isEnglish ? "Fax" : "팩스"}: {siteData.fax.display}
               </a>
               <a
                 href={`mailto:${siteData.email}`}
                 className="break-all underline decoration-white/25 underline-offset-4 hover:text-white"
               >
-                {siteData.email}
+                {isEnglish ? "Email" : "이메일"}: {siteData.email}
               </a>
             </div>
           </FooterColumn>
 
-          <FooterColumn title="Explore">
-            <nav aria-label="Footer navigation" className="w-full">
+          <FooterColumn title={columnTitles.explore}>
+            <nav aria-label={isEnglish ? "Footer navigation" : "푸터 탐색"}>
               <ul className="flex w-full flex-col items-stretch gap-2 text-sm text-white/75">
                 {siteData.navigation.map((item) => (
                   <li key={item.href} className="w-full">
@@ -305,7 +250,7 @@ export default function Footer() {
                       href={item.href}
                       className="block w-full text-left hover:text-white hover:underline"
                     >
-                      {item.label.en}
+                      {item.label[language]}
                     </Link>
                   </li>
                 ))}
@@ -316,7 +261,7 @@ export default function Footer() {
 
         <div className="flex flex-col gap-2 pt-4 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <span>
-            © 2026 {siteData.name.en} · {siteData.name.ko}
+            © 2026 {siteData.name[language]} · {siteData.name[isEnglish ? "ko" : "en"]}
           </span>
           <a
             href={siteData.novusUrl}

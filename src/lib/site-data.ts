@@ -3,12 +3,17 @@ export type BilingualText = {
   ko: string
 }
 
+export type Weekday = 0 | 1 | 2 | 3 | 4 | 5 | 6
+
 export type BusinessHour = {
-  days: BilingualText
-  hours: BilingualText
+  days: readonly Weekday[]
+  label: BilingualText
+  opensAt: string | null
+  closesAt: string | null
 }
 
 export type Service = {
+  id: string
   name: BilingualText
   description: BilingualText
   badge?: BilingualText
@@ -19,14 +24,26 @@ export type NavigationItem = {
   href: string
 }
 
+export type ContactNumber = {
+  display: string
+  href: string
+}
+
+export type Address = {
+  street: string
+  city: string
+  state: string
+  postalCode: string
+}
+
 export type SiteData = {
   name: BilingualText
   description: BilingualText
-  footerDescription: string
-  phone: string
-  secondaryPhone: string
+  footerDescription: BilingualText
+  phone: ContactNumber
+  fax: ContactNumber
   email: string
-  address: BilingualText
+  address: Address
   hours: BusinessHour[]
   services: Service[]
   navigation: NavigationItem[]
@@ -37,7 +54,7 @@ export type SiteData = {
   novusUrl: string
 }
 
-export const siteData: SiteData = {
+export const siteData = {
   name: {
     en: "Fort Lee Pharmacy & Surgicals",
     ko: "포트리 약국",
@@ -46,49 +63,57 @@ export const siteData: SiteData = {
     en: "A neighborhood pharmacy on Lemoine Avenue in Fort Lee, New Jersey.",
     ko: "뉴저지 포트리 르무안 애비뉴에 있는 동네 약국입니다.",
   },
-  footerDescription:
-    "Your neighborhood pharmacy in Fort Lee, in Korean and English.",
-  phone: "201-346-9202",
-  secondaryPhone: "201-346-9212",
+  footerDescription: {
+    en: "Your neighborhood pharmacy in Fort Lee, in Korean and English.",
+    ko: "포트리 이웃을 위한 약국. 한국어와 영어로 모십니다.",
+  },
+  phone: {
+    display: "201-346-9202",
+    href: "tel:2013469202",
+  },
+  fax: {
+    display: "201-346-9212",
+    href: "fax:2013469212",
+  },
   email: "fortleepharmacy@gmail.com",
   address: {
-    en: "1562 Lemoine Avenue, Fort Lee, NJ 07024",
-    ko: "1562 Lemoine Avenue, Fort Lee, NJ 07024",
+    street: "1562 Lemoine Avenue",
+    city: "Fort Lee",
+    state: "NJ",
+    postalCode: "07024",
   },
   hours: [
     {
-      days: {
-        en: "Monday–Friday",
+      days: [1, 2, 3, 4, 5],
+      label: {
+        en: "Mon–Fri",
         ko: "월요일–금요일",
       },
-      hours: {
-        en: "9:00 AM–6:00 PM",
-        ko: "오전 9시–오후 6시",
-      },
+      opensAt: "09:00",
+      closesAt: "18:00",
     },
     {
-      days: {
+      days: [6],
+      label: {
         en: "Saturday",
         ko: "토요일",
       },
-      hours: {
-        en: "9:00 AM–4:00 PM",
-        ko: "오전 9시–오후 4시",
-      },
+      opensAt: "09:00",
+      closesAt: "16:00",
     },
     {
-      days: {
+      days: [0],
+      label: {
         en: "Sunday",
         ko: "일요일",
       },
-      hours: {
-        en: "Closed",
-        ko: "휴무",
-      },
+      opensAt: null,
+      closesAt: null,
     },
   ],
   services: [
     {
+      id: "vaccines",
       name: {
         en: "Vaccines",
         ko: "예방접종",
@@ -103,6 +128,7 @@ export const siteData: SiteData = {
       },
     },
     {
+      id: "prescriptions",
       name: {
         en: "Prescriptions",
         ko: "처방전",
@@ -113,6 +139,7 @@ export const siteData: SiteData = {
       },
     },
     {
+      id: "free-delivery",
       name: {
         en: "Free delivery",
         ko: "무료 배달",
@@ -123,6 +150,7 @@ export const siteData: SiteData = {
       },
     },
     {
+      id: "over-the-counter",
       name: {
         en: "Over-the-counter",
         ko: "일반의약품",
@@ -133,6 +161,7 @@ export const siteData: SiteData = {
       },
     },
     {
+      id: "medical-supplies",
       name: {
         en: "Medical supplies",
         ko: "의료용품",
@@ -143,6 +172,7 @@ export const siteData: SiteData = {
       },
     },
     {
+      id: "household-and-personal-care",
       name: {
         en: "Household & personal care",
         ko: "생활용품",
@@ -195,4 +225,4 @@ export const siteData: SiteData = {
     "https://www.google.com/maps/search/?api=1&query=1562+Lemoine+Avenue+Fort+Lee+NJ+07024",
   storefrontImage: "/storefront.webp",
   novusUrl: "https://novusnyc.org",
-}
+} satisfies SiteData

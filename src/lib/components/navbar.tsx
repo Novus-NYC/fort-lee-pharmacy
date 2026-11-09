@@ -13,7 +13,6 @@ export default function Navbar() {
   const pathname = usePathname()
   const { language, toggleLanguage } = useLanguage()
   const languageLabel = language === "en" ? "한국어" : "English"
-  const phoneHref = `tel:${siteData.phone.replaceAll("-", "")}`
 
   useEffect(() => {
     const closeMenuOnEscape = (event: KeyboardEvent) => {
@@ -82,7 +81,7 @@ export default function Navbar() {
         </button>
 
         <a
-          href={phoneHref}
+          href={siteData.phone.href}
           className="hidden min-h-11 shrink-0 items-center gap-2 rounded-[var(--radius-small)] border-2 border-[var(--color-yellow)] bg-[var(--color-yellow)] px-4 text-[15px] font-bold text-[var(--color-navy)] no-underline hover:brightness-95 md:inline-flex"
         >
           <Image
@@ -92,11 +91,11 @@ export default function Navbar() {
             height={14}
             className="h-3.5 w-3.5 shrink-0 object-contain"
           />
-          {siteData.phone}
+          {siteData.phone.display}
         </a>
 
         <a
-          href={phoneHref}
+          href={siteData.phone.href}
           className="inline-flex min-h-9 shrink-0 items-center gap-1 rounded-[var(--radius-small)] border-2 border-[var(--color-yellow)] bg-[var(--color-yellow)] px-2 text-sm font-bold text-[var(--color-navy)] no-underline hover:brightness-95 md:hidden"
           aria-label={`Call ${siteData.phone}`}
         >
@@ -152,7 +151,7 @@ export default function Navbar() {
             {languageLabel}
           </button>
           <a
-            href={phoneHref}
+            href={siteData.phone.href}
             className="mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--radius-small)] bg-[var(--color-yellow)] px-4 text-base font-bold text-[var(--color-navy)] no-underline"
             onClick={closeMenu}
           >
