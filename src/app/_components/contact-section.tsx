@@ -3,6 +3,27 @@
 import { useLanguage } from "@/lib/language-context"
 import { siteData } from "@/lib/site-data"
 
+function MessageForm({
+  asForm,
+  children,
+}: {
+  asForm: boolean
+  children: React.ReactNode
+}) {
+  if (!asForm) {
+    return <div className="grid gap-[14px]">{children}</div>
+  }
+
+  return (
+    <form
+      className="grid gap-[14px]"
+      onSubmit={(event) => event.preventDefault()}
+    >
+      {children}
+    </form>
+  )
+}
+
 const addressQuery = [
   siteData.address.street,
   siteData.address.city,
@@ -25,20 +46,28 @@ function formatHours(time: string, language: "en" | "ko") {
     : `${period === "AM" ? "오전" : "오후"} ${hour}:${minute}`
 }
 
-export default function ContactSection() {
+export default function ContactSection({
+  asForm = false,
+}: {
+  asForm?: boolean
+}) {
   const { language } = useLanguage()
   const isEnglish = language === "en"
+  const sectionId = asForm ? "contact-page-contact" : "contact-home"
+  const headingId = asForm
+    ? "contact-page-contact-heading"
+    : "home-contact-heading"
 
   return (
     <section
-      id="contact-home"
-      aria-labelledby="home-contact-heading"
+      id={sectionId}
+      aria-labelledby={headingId}
       className="-mx-6 bg-[var(--color-blue)] px-6 py-11 text-white shadow-[0_0_0_100vmax_var(--color-blue)] [clip-path:inset(0_-100vmax)]"
     >
       <div className="mx-auto grid max-w-[1120px] grid-cols-[1fr_1.15fr] items-start gap-x-10 gap-y-6 px-[22px] max-[820px]:grid-cols-1">
         <div className="min-w-0">
           <h2
-            id="home-contact-heading"
+            id={headingId}
             className="mb-[14px] text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.05]"
             style={{
               fontFamily: isEnglish
@@ -93,7 +122,7 @@ export default function ContactSection() {
         </div>
 
         <div className="min-w-0 rounded-[6px] bg-[var(--color-paper)] p-[22px] text-[var(--color-navy)]">
-          <div className="grid gap-[14px]">
+          <MessageForm asForm={asForm}>
             <div>
               <h3
                 className="mb-1 text-[30px] font-extrabold leading-tight"
@@ -158,7 +187,7 @@ export default function ContactSection() {
             >
               {isEnglish ? "Send message" : "보내기"}
             </button>
-          </div>
+          </MessageForm>
         </div>
 
         <div className="col-span-2 min-w-0 max-[820px]:col-span-1">
