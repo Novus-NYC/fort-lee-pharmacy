@@ -16,6 +16,7 @@
 
   --font-display: var(--font-big-shoulders), "Noto Sans KR", sans-serif;
   --font-body: var(--font-instrument-sans), var(--font-noto-sans-kr), sans-serif;
+  --font-korean: var(--font-noto-sans-kr), sans-serif;
 
   --text-body: 1.0625rem;
   --text-small: 0.875rem;
@@ -82,7 +83,7 @@ h3 {
 body.ko h1,
 body.ko h2,
 body.ko h3 {
-  font-family: var(--font-noto-sans-kr), sans-serif;
+  font-family: var(--font-korean);
   line-height: 1.2;
 }
 

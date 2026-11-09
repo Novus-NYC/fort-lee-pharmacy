@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+import ServicesPageContent from "@/app/_components/services-page-content"
+
+export const metadata: Metadata = {
+  title: "Services | Fort Lee Pharmacy & Surgicals",
+  description:
+    "Explore pharmacy services at Fort Lee Pharmacy & Surgicals in Fort Lee, New Jersey.",
+}
+
 export default function ServicesPage() {
-  return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Services</h1>
-      <p className="text-gray-600">
-        The services page is ready for confirmed pharmacy service information.
-      </p>
-    </div>
-  )
+  return <ServicesPageContent />
 }

@@ -39,13 +39,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${displayFont.variable} ${bodyFont.variable} ${koreanFont.variable} min-h-screen flex flex-col`}
-      >
+    <html
+      lang="en"
+      className={`${displayFont.variable} ${bodyFont.variable} ${koreanFont.variable}`}
+    >
+      <body className="min-h-screen flex flex-col">
         <LanguageProvider>
           <Navbar />
-          <main className="min-w-0 w-full flex-1 max-w-6xl mx-auto px-6">
+          <main className="min-w-0 w-full flex-1">
             {children}
           </main>
           <Footer />
