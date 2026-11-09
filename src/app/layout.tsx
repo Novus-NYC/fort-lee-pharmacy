@@ -45,7 +45,7 @@ export default function RootLayout({
       >
         <LanguageProvider>
           <Navbar />
-          <main className="min-w-0 w-full flex-1 max-w-6xl mx-auto px-6 py-12">
+          <main className="min-w-0 w-full flex-1 max-w-6xl mx-auto px-6">
             {children}
           </main>
           <Footer />

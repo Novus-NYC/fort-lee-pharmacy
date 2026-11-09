@@ -2,6 +2,7 @@ import HomeHero from "@/app/_components/home-hero"
 import ServicesSection from "@/app/_components/services-section"
 import InfoBanner from "@/app/_components/info-banner"
 import ReviewsSection from "@/app/_components/reviews-section"
+import ContactSection from "@/app/_components/contact-section"
 
 export default function HomePage() {
   return (
@@ -10,6 +11,7 @@ export default function HomePage() {
       <ServicesSection />
       <InfoBanner />
       <ReviewsSection />
+      <ContactSection />
     </>
   )
 }
