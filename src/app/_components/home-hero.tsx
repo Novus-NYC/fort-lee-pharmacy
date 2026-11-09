@@ -48,7 +48,7 @@ export default function HomeHero() {
       aria-labelledby="home-hero-heading"
       className="-mt-12 mb-0 flex min-h-[calc(100svh-16px)] items-center bg-[var(--color-navy)] py-12 max-[820px]:min-h-0 max-[820px]:pt-[34px] max-[820px]:pb-[72px]"
     >
-      <div className="mx-auto grid w-full grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] items-center gap-[44px] max-[820px]:grid-cols-1 max-[820px]:gap-0">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] items-center gap-[44px] px-6 max-[820px]:grid-cols-1 max-[820px]:gap-0">
         <div
           style={{
             fontFamily: "var(--font-body)",
