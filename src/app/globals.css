@@ -2,11 +2,138 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+:root {
+  --color-navy: #0a1230;
+  --color-blue: #1e3fa8;
+  --color-yellow: #ffd23f;
+  --color-coral: #ff4d6d;
+  --color-red: #9b3b35;
+  --color-paper: #f3efe6;
+  --color-footer: #060b20;
+  --color-white: #ffffff;
+  --color-muted: #aeb6d1;
+  --color-border: rgb(255 255 255 / 25%);
+
+  --font-display: "Big Shoulders Display", var(--font-big-shoulders),
+    "Noto Sans KR", sans-serif;
+  --font-body: var(--font-instrument-sans), var(--font-noto-sans-kr), sans-serif;
+  --font-korean: var(--font-noto-sans-kr), sans-serif;
+
+  --text-body: 1.0625rem;
+  --text-small: 0.875rem;
+  --text-label: 0.75rem;
+  --text-h1: clamp(2.5rem, 6.5vw, 4.75rem);
+  --text-h2: clamp(2rem, 4.6vw, 3.25rem);
+  --text-h3: clamp(1.5rem, 3vw, 1.875rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.75rem;
+  --space-8: 4rem;
+  --space-9: 5rem;
+
+  --content-width: 70rem;
+  --page-gutter: 1.375rem;
+  --nav-height: 4.125rem;
+  --radius-small: 0.375rem;
+  --radius-medium: 0.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + var(--space-4));
+}
+
+html,
+body {
   padding: 0;
   margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-navy);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.55;
 }
 
 * {
   box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+body.ko h1,
+body.ko h2,
+body.ko h3 {
+  font-family: var(--font-korean);
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-yellow);
+  outline-offset: 3px;
+}
+
+.site-nav {
+  position: relative;
+}
+
+.site-nav::after {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 14px;
+  background: radial-gradient(
+      circle at 14px 0,
+      var(--color-blue) 13px,
+      transparent 14px
+    )
+    0 0 / 28px 14px repeat-x;
+  content: "";
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

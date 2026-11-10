@@ -1,16 +1,12 @@
-export default function ContactPage() {
-  return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Contact</h1>
-      <p className="text-gray-600">
-        Replace this with contact info (phone, email, address) and/or a contact form.
-      </p>
+import type { Metadata } from "next"
+import ContactPageContent from "@/app/_components/contact-page-content"
 
-      <div className="rounded-md border p-4 text-sm text-gray-600">
-        <div><span className="font-medium text-gray-800">Email:</span> contact@business.com</div>
-        <div><span className="font-medium text-gray-800">Phone:</span> (000) 000-0000</div>
-        <div><span className="font-medium text-gray-800">Address:</span> 123 Main St, City, ST</div>
-      </div>
-    </div>
-  )
+export const metadata: Metadata = {
+  title: "Contact | Fort Lee Pharmacy & Surgicals",
+  description:
+    "Visit, call, or write Fort Lee Pharmacy & Surgicals. Find our address, hours, and quick answers to common questions.",
+}
+
+export default function ContactPage() {
+  return <ContactPageContent />
 }
